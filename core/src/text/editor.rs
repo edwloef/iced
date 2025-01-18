@@ -385,7 +385,10 @@ impl State {
                 )))))
             }
             Event::Mouse(event) => match event {
-                mouse::Event::ButtonPressed(mouse::Button::Left) => {
+                mouse::Event::ButtonPressed {
+                    button: mouse::Button::Left,
+                    ..
+                } => {
                     if let Some(cursor_position) = cursor.position_in(bounds) {
                         let cursor_position =
                             cursor_position - Vector::new(padding.left, padding.top);
@@ -412,7 +415,10 @@ impl State {
                         None
                     }
                 }
-                mouse::Event::ButtonReleased(mouse::Button::Left) => {
+                mouse::Event::ButtonReleased {
+                    button: mouse::Button::Left,
+                    ..
+                } => {
                     self.is_dragging = false;
 
                     Some(Update::Release)
@@ -423,7 +429,7 @@ impl State {
 
                     Some(Update::Action(Action::Drag(position)))
                 }
-                mouse::Event::WheelScrolled { delta } if cursor.is_over(bounds) => {
+                mouse::Event::WheelScrolled { delta, .. } if cursor.is_over(bounds) => {
                     let bounds = editor.bounds();
 
                     if bounds.height >= i32::MAX as f32 {

@@ -55,6 +55,7 @@
 //! }
 //! ```
 use crate::core::keyboard;
+use crate::core::keyboard::Modifiers;
 use crate::core::keyboard::key;
 use crate::core::layout::{self, Layout};
 use crate::core::mouse;
