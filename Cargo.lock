@@ -2527,7 +2527,6 @@ dependencies = [
  "lilt",
  "log",
  "num-traits",
- "palette",
  "rustc-hash 2.1.1",
  "smol_str",
  "thiserror 1.0.69",
@@ -2890,6 +2889,7 @@ version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
  "console_log",
+ "futures",
  "iced_wgpu",
  "iced_widget",
  "iced_winit",
