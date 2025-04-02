@@ -22,7 +22,7 @@ all-features = true
 maintenance = { status = "actively-developed" }
 
 [features]
-default = ["wgpu", "tiny-skia", "web-colors", "auto-detect-theme", "thread-pool"]
+default = ["wgpu", "tiny-skia", "web-colors", "auto-detect-theme", "thread-pool", "x11", "wayland", "wayland-dlopen", "wayland-csd-adwaita"]
 # Enables the `wgpu` GPU-accelerated renderer backend
 wgpu = ["iced_renderer/wgpu", "iced_widget/wgpu"]
 # Enables the `tiny-skia` software renderer backend
@@ -69,6 +69,10 @@ strict-assertions = ["iced_renderer/strict-assertions"]
 unconditional-rendering = ["iced_winit/unconditional-rendering"]
 # Enables support for the `sipper` library
 sipper = ["iced_runtime/sipper"]
+x11 = ["iced_winit/x11"]
+wayland = ["iced_winit/wayland"]
+wayland-dlopen = ["iced_winit/wayland-dlopen"]
+wayland-csd-adwaita = ["iced_winit/wayland-csd-adwaita"]
 
 [dependencies]
 iced_debug.workspace = true
@@ -157,7 +161,7 @@ iced_test = { version = "0.14.0-dev", path = "test" }
 iced_tiny_skia = { version = "0.14.0-dev", path = "tiny_skia" }
 iced_wgpu = { version = "0.14.0-dev", path = "wgpu" }
 iced_widget = { version = "0.14.0-dev", path = "widget" }
-iced_winit = { version = "0.14.0-dev", path = "winit" }
+iced_winit = { version = "0.14.0-dev", path = "winit", default-features = false }
 
 bincode = "1.3"
 bitflags = "2.0"
@@ -205,8 +209,10 @@ wasmtimer = "0.4.1"
 web-sys = "0.3.69"
 web-time = "1.1"
 wgpu = "24.0"
-window_clipboard = "0.4.1"
-winit = { git = "https://github.com/iced-rs/winit.git", rev = "11414b6aa45699f038114e61b4ddf5102b2d3b4b" }
+window_clipboard = { git = "https://github.com/edwloef/window_clipboard.git", branch = "x11_wayland", default-features = false }
+winit = { git = "https://github.com/iced-rs/winit.git", rev = "11414b6aa45699f038114e61b4ddf5102b2d3b4b", default-features = false, features = [
+    "rwh_06",
+] }
 
 [workspace.lints.rust]
 rust_2018_idioms = { level = "deny", priority = -1 }
