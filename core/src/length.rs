@@ -37,7 +37,7 @@ impl Length {
         }
     }
 
-    /// Returns `true` iff the [`Length`] is either [`Length::Fill`] or
+    /// Returns `true` if the [`Length`] is either [`Length::Fill`] or
     // [`Length::FillPortion`].
     pub fn is_fill(&self) -> bool {
         self.fill_factor() != 0
