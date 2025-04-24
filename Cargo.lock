@@ -845,8 +845,7 @@ dependencies = [
 [[package]]
 name = "clipboard_macos"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9b7f4aaa047ba3c3630b080bb9860894732ff23e2aee290a418909aa6d5df38f"
+source = "git+https://github.com/edwloef/window_clipboard.git?branch=x11_wayland#a56d5e663ed0c6cc17411055d1770c37d0822477"
 dependencies = [
  "objc2 0.5.2",
  "objc2-app-kit",
@@ -856,8 +855,7 @@ dependencies = [
 [[package]]
 name = "clipboard_wayland"
 version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "003f886bc4e2987729d10c1db3424e7f80809f3fc22dbc16c685738887cb37b8"
+source = "git+https://github.com/edwloef/window_clipboard.git?branch=x11_wayland#a56d5e663ed0c6cc17411055d1770c37d0822477"
 dependencies = [
  "smithay-clipboard",
 ]
@@ -865,8 +863,7 @@ dependencies = [
 [[package]]
 name = "clipboard_x11"
 version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4274ea815e013e0f9f04a2633423e14194e408a0576c943ce3d14ca56c50031c"
+source = "git+https://github.com/edwloef/window_clipboard.git?branch=x11_wayland#a56d5e663ed0c6cc17411055d1770c37d0822477"
 dependencies = [
  "thiserror 1.0.69",
  "x11rb",
@@ -6788,8 +6785,7 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 [[package]]
 name = "window_clipboard"
 version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6d692d46038c433f9daee7ad8757e002a4248c20b0a3fbc991d99521d3bcb6d"
+source = "git+https://github.com/edwloef/window_clipboard.git?branch=x11_wayland#a56d5e663ed0c6cc17411055d1770c37d0822477"
 dependencies = [
  "clipboard-win",
  "clipboard_macos",
