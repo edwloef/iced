@@ -499,7 +499,9 @@ where
             .widget
             .draw(state, renderer, theme, style, layout, cursor, viewport);
 
-        explain_layout(renderer, self.color, layout);
+        renderer.with_layer(Rectangle::INFINITE, |renderer| {
+            explain_layout(renderer, self.color, layout);
+        });
     }
 
     fn mouse_interaction(

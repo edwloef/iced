@@ -139,7 +139,7 @@ impl<T> Subscription<T> {
     ///
     /// ```
     /// # mod iced {
-    /// #     pub use iced_futures::Subscription;   
+    /// #     pub use iced_futures::Subscription;
     /// #     pub use iced_futures::futures;
     /// #     pub use iced_futures::stream;
     /// # }
