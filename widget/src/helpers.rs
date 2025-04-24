@@ -111,6 +111,19 @@ macro_rules! stack {
     );
 }
 
+/// Creates a [`Grid`] with the given children.
+///
+/// [`Grid`]: crate::Grid
+#[macro_export]
+macro_rules! grid {
+    () => (
+        $crate::Grid::new()
+    );
+    ($($x:expr),+ $(,)?) => (
+        $crate::Grid::with_children([$($crate::core::Element::from($x)),+])
+    );
+}
+
 /// Creates a new [`Text`] widget with the provided content.
 ///
 /// [`Text`]: core::widget::Text
@@ -655,7 +668,7 @@ where
         ) {
             let is_mouse_press = matches!(
                 event,
-                core::Event::Mouse(mouse::Event::ButtonPressed(_))
+                core::Event::Mouse(mouse::Event::ButtonPressed { .. })
             );
 
             self.content.as_widget_mut().update(
@@ -892,7 +905,7 @@ where
                 event,
                 Event::Mouse(
                     mouse::Event::CursorMoved { .. }
-                        | mouse::Event::ButtonReleased(_)
+                        | mouse::Event::ButtonReleased { .. }
                 )
             ) || is_visible
             {
