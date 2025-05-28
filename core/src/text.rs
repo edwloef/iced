@@ -183,7 +183,7 @@ impl LineHeight {
     /// Returns the [`LineHeight`] in absolute logical pixels.
     pub fn to_absolute(self, text_size: Pixels) -> Pixels {
         match self {
-            Self::Relative(factor) => Pixels(factor * text_size.0),
+            Self::Relative(factor) => Pixels((factor * text_size.0).ceil()),
             Self::Absolute(pixels) => pixels,
         }
     }
