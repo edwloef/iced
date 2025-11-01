@@ -163,6 +163,7 @@ pub fn window_event(
 
             Some(Event::Mouse(mouse::Event::CursorMoved {
                 position: Point::new(position.x as f32, position.y as f32),
+                modifiers: self::modifiers(modifiers),
             }))
         }
         WindowEvent::CursorEntered { .. } => {
@@ -173,34 +174,40 @@ pub fn window_event(
         }
         WindowEvent::MouseInput { button, state, .. } => {
             let button = mouse_button(button);
+            let modifiers = self::modifiers(modifiers);
 
             Some(Event::Mouse(match state {
                 winit::event::ElementState::Pressed => {
-                    mouse::Event::ButtonPressed(button)
+                    mouse::Event::ButtonPressed { button, modifiers }
                 }
                 winit::event::ElementState::Released => {
-                    mouse::Event::ButtonReleased(button)
+                    mouse::Event::ButtonReleased { button, modifiers }
                 }
             }))
         }
-        WindowEvent::MouseWheel { delta, .. } => match delta {
-            winit::event::MouseScrollDelta::LineDelta(delta_x, delta_y) => {
-                Some(Event::Mouse(mouse::Event::WheelScrolled {
-                    delta: mouse::ScrollDelta::Lines {
-                        x: delta_x,
-                        y: delta_y,
-                    },
-                }))
+        WindowEvent::MouseWheel { delta, .. } => {
+            let modifiers = self::modifiers(modifiers);
+            match delta {
+                winit::event::MouseScrollDelta::LineDelta(delta_x, delta_y) => {
+                    Some(Event::Mouse(mouse::Event::WheelScrolled {
+                        delta: mouse::ScrollDelta::Lines {
+                            x: delta_x,
+                            y: delta_y,
+                        },
+                        modifiers,
+                    }))
+                }
+                winit::event::MouseScrollDelta::PixelDelta(position) => {
+                    Some(Event::Mouse(mouse::Event::WheelScrolled {
+                        delta: mouse::ScrollDelta::Pixels {
+                            x: position.x as f32,
+                            y: position.y as f32,
+                        },
+                        modifiers,
+                    }))
+                }
             }
-            winit::event::MouseScrollDelta::PixelDelta(position) => {
-                Some(Event::Mouse(mouse::Event::WheelScrolled {
-                    delta: mouse::ScrollDelta::Pixels {
-                        x: position.x as f32,
-                        y: position.y as f32,
-                    },
-                }))
-            }
-        },
+        }
         // Ignore keyboard presses/releases during window focus/unfocus
         WindowEvent::KeyboardInput { is_synthetic, .. } if is_synthetic => None,
         WindowEvent::KeyboardInput { event, .. } => Some(Event::Keyboard({
@@ -474,12 +481,21 @@ pub fn mouse_interaction(
         Interaction::None | Interaction::Idle => {
             winit::window::CursorIcon::Default
         }
+        Interaction::ContextMenu => winit::window::CursorIcon::ContextMenu,
+        Interaction::Help => winit::window::CursorIcon::Help,
         Interaction::Pointer => winit::window::CursorIcon::Pointer,
-        Interaction::Working => winit::window::CursorIcon::Progress,
-        Interaction::Grab => winit::window::CursorIcon::Grab,
-        Interaction::Grabbing => winit::window::CursorIcon::Grabbing,
+        Interaction::Progress => winit::window::CursorIcon::Progress,
+        Interaction::Wait => winit::window::CursorIcon::Wait,
+        Interaction::Cell => winit::window::CursorIcon::Cell,
         Interaction::Crosshair => winit::window::CursorIcon::Crosshair,
         Interaction::Text => winit::window::CursorIcon::Text,
+        Interaction::Alias => winit::window::CursorIcon::Alias,
+        Interaction::Copy => winit::window::CursorIcon::Copy,
+        Interaction::Move => winit::window::CursorIcon::Move,
+        Interaction::NoDrop => winit::window::CursorIcon::NoDrop,
+        Interaction::NotAllowed => winit::window::CursorIcon::NotAllowed,
+        Interaction::Grab => winit::window::CursorIcon::Grab,
+        Interaction::Grabbing => winit::window::CursorIcon::Grabbing,
         Interaction::ResizingHorizontally => {
             winit::window::CursorIcon::EwResize
         }
@@ -490,13 +506,11 @@ pub fn mouse_interaction(
         Interaction::ResizingDiagonallyDown => {
             winit::window::CursorIcon::NwseResize
         }
-        Interaction::NotAllowed => winit::window::CursorIcon::NotAllowed,
+        Interaction::ResizingColumn => winit::window::CursorIcon::ColResize,
+        Interaction::ResizingRow => winit::window::CursorIcon::RowResize,
+        Interaction::AllScroll => winit::window::CursorIcon::AllScroll,
         Interaction::ZoomIn => winit::window::CursorIcon::ZoomIn,
         Interaction::ZoomOut => winit::window::CursorIcon::ZoomOut,
-        Interaction::Cell => winit::window::CursorIcon::Cell,
-        Interaction::Move => winit::window::CursorIcon::Move,
-        Interaction::Copy => winit::window::CursorIcon::Copy,
-        Interaction::Help => winit::window::CursorIcon::Help,
     }
 }
 
