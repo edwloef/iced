@@ -601,8 +601,8 @@ where
         if let Some(last_scrolled) = state.last_scrolled {
             let clear_transaction = match event {
                 Event::Mouse(
-                    mouse::Event::ButtonPressed(_)
-                    | mouse::Event::ButtonReleased(_)
+                    mouse::Event::ButtonPressed { .. }
+                    | mouse::Event::ButtonReleased { .. }
                     | mouse::Event::CursorLeft,
                 ) => true,
                 Event::Mouse(mouse::Event::CursorMoved { .. }) => {
@@ -652,9 +652,10 @@ where
                 }
             } else if mouse_over_y_scrollbar {
                 match event {
-                    Event::Mouse(mouse::Event::ButtonPressed(
-                        mouse::Button::Left,
-                    ))
+                    Event::Mouse(mouse::Event::ButtonPressed {
+                        button: mouse::Button::Left,
+                        ..
+                    })
                     | Event::Touch(touch::Event::FingerPressed { .. }) => {
                         let Some(cursor_position) = cursor.position() else {
                             return;
@@ -726,9 +727,10 @@ where
                 }
             } else if mouse_over_x_scrollbar {
                 match event {
-                    Event::Mouse(mouse::Event::ButtonPressed(
-                        mouse::Button::Left,
-                    ))
+                    Event::Mouse(mouse::Event::ButtonPressed {
+                        button: mouse::Button::Left,
+                        ..
+                    })
                     | Event::Touch(touch::Event::FingerPressed { .. }) => {
                         let Some(cursor_position) = cursor.position() else {
                             return;
@@ -770,7 +772,7 @@ where
                 && matches!(
                     event,
                     Event::Mouse(
-                        mouse::Event::ButtonPressed(_)
+                        mouse::Event::ButtonPressed { .. }
                             | mouse::Event::WheelScrolled { .. }
                     ) | Event::Touch(_)
                         | Event::Keyboard(_)
@@ -829,11 +831,13 @@ where
 
             if matches!(
                 event,
-                Event::Mouse(mouse::Event::ButtonReleased(mouse::Button::Left))
-                    | Event::Touch(
-                        touch::Event::FingerLifted { .. }
-                            | touch::Event::FingerLost { .. }
-                    )
+                Event::Mouse(mouse::Event::ButtonReleased {
+                    button: mouse::Button::Left,
+                    ..
+                }) | Event::Touch(
+                    touch::Event::FingerLifted { .. }
+                        | touch::Event::FingerLost { .. }
+                )
             ) {
                 state.interaction = Interaction::None;
                 return;
@@ -844,7 +848,7 @@ where
             }
 
             match event {
-                Event::Mouse(mouse::Event::WheelScrolled { delta }) => {
+                Event::Mouse(mouse::Event::WheelScrolled { delta, .. }) => {
                     if cursor_over_scrollable.is_none() {
                         return;
                     }
@@ -897,9 +901,10 @@ where
                         shell.capture_event();
                     }
                 }
-                Event::Mouse(mouse::Event::ButtonPressed(
-                    mouse::Button::Middle,
-                )) if self.auto_scroll
+                Event::Mouse(mouse::Event::ButtonPressed {
+                    button: mouse::Button::Middle,
+                    ..
+                }) if self.auto_scroll
                     && matches!(state.interaction, Interaction::None) =>
                 {
                     let Some(origin) = cursor_over_scrollable else {
@@ -973,7 +978,9 @@ where
 
                     shell.capture_event();
                 }
-                Event::Mouse(mouse::Event::CursorMoved { position }) => {
+                Event::Mouse(mouse::Event::CursorMoved {
+                    position, ..
+                }) => {
                     if let Interaction::AutoScrolling {
                         origin,
                         last_frame,
