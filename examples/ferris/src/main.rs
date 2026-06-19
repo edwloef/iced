@@ -135,8 +135,7 @@ impl Image {
                 format!("Width: {}px", self.width)
             ),
             with_value(
-                slider(0.0..=1.0, self.opacity, Message::OpacityChanged)
-                    .scale(slider::discrete(0.01)),
+                slider(0.0..=1.0, self.opacity, Message::OpacityChanged).scale(0.01),
                 format!("Opacity: {:.2}", self.opacity)
             ),
             with_value(

@@ -55,8 +55,7 @@ impl Progress {
                 center(
                     column![
                         bar,
-                        slider(0.0..=100.0, self.value, Message::SliderChanged)
-                            .scale(slider::discrete(0.01))
+                        slider(0.0..=100.0, self.value, Message::SliderChanged).scale(0.01)
                     ]
                     .spacing(20),
                 )
