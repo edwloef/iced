@@ -97,20 +97,15 @@ impl Example {
                 self.snap,
             ),
             text!("Radius: {top_left:.2}/{top_right:.2}/{bottom_right:.2}/{bottom_left:.2}"),
-            slider(1.0..=200.0, top_left, Message::RadiusTopLeftChanged)
-                .scale(slider::discrete(0.01)),
-            slider(1.0..=200.0, top_right, Message::RadiusTopRightChanged)
-                .scale(slider::discrete(0.01)),
-            slider(1.0..=200.0, bottom_right, Message::RadiusBottomRightChanged)
-                .scale(slider::discrete(0.01)),
-            slider(1.0..=200.0, bottom_left, Message::RadiusBottomLeftChanged)
-                .scale(slider::discrete(0.01)),
-            slider(0.0..=10.0, self.border_width, Message::BorderWidthChanged)
-                .scale(slider::discrete(0.01)),
+            slider(1.0..=200.0, top_left, Message::RadiusTopLeftChanged).scale(0.01),
+            slider(1.0..=200.0, top_right, Message::RadiusTopRightChanged).scale(0.01),
+            slider(1.0..=200.0, bottom_right, Message::RadiusBottomRightChanged).scale(0.01),
+            slider(1.0..=200.0, bottom_left, Message::RadiusBottomLeftChanged).scale(0.01),
+            slider(0.0..=10.0, self.border_width, Message::BorderWidthChanged).scale(0.01),
             text!("Shadow: {sx:.2}x{sy:.2}, {sr:.2}"),
-            slider(-100.0..=100.0, sx, Message::ShadowXOffsetChanged).scale(slider::discrete(0.01)),
-            slider(-100.0..=100.0, sy, Message::ShadowYOffsetChanged).scale(slider::discrete(0.01)),
-            slider(0.0..=100.0, sr, Message::ShadowBlurRadiusChanged).scale(slider::discrete(0.01)),
+            slider(-100.0..=100.0, sx, Message::ShadowXOffsetChanged).scale(0.01),
+            slider(-100.0..=100.0, sy, Message::ShadowYOffsetChanged).scale(0.01),
+            slider(0.0..=100.0, sr, Message::ShadowBlurRadiusChanged).scale(0.01),
             toggler(self.snap)
                 .label("Snap to pixel grid")
                 .on_toggle(Message::SnapToggled),

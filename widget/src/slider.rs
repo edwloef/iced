@@ -197,6 +197,63 @@ impl<T: num_traits::FromPrimitive> Scale<T> for ContinuousScale {
     }
 }
 
+/// A trait for values that can be converted into a slider [`Scale`].
+pub trait IntoScale<T> {
+    /// The concrete [`Scale`] type.
+    type Scale: Scale<T>;
+
+    /// Converts the value into a [`Scale`].
+    fn into_scale(self) -> Self::Scale;
+}
+
+impl<T> IntoScale<T> for DiscreteScale
+where
+    T: num_traits::AsPrimitive<f64> + num_traits::FromPrimitive,
+{
+    type Scale = Self;
+
+    fn into_scale(self) -> Self {
+        self
+    }
+}
+
+impl<T> IntoScale<T> for ContinuousScale
+where
+    T: num_traits::FromPrimitive,
+{
+    type Scale = Self;
+
+    fn into_scale(self) -> Self {
+        self
+    }
+}
+
+macro_rules! impl_into_scale {
+    ($type:ty) => {
+        impl<T> IntoScale<T> for $type
+        where
+            T: num_traits::AsPrimitive<f64> + num_traits::FromPrimitive,
+        {
+            type Scale = DiscreteScale;
+
+            fn into_scale(self) -> DiscreteScale {
+                discrete(self)
+            }
+        }
+    };
+}
+
+impl_into_scale!(f32);
+impl_into_scale!(f64);
+impl_into_scale!(u8);
+impl_into_scale!(u16);
+impl_into_scale!(u32);
+impl_into_scale!(u64);
+impl_into_scale!(i8);
+impl_into_scale!(i16);
+impl_into_scale!(i32);
+impl_into_scale!(i64);
+
 impl<'a, T, Message, Theme> Slider<'a, T, Message, Theme>
 where
     T: Copy + PartialOrd,
@@ -277,8 +334,11 @@ where
     }
 
     /// Sets the [`Scale`] of the [`Slider`].
-    pub fn scale(mut self, scale: impl Scale<T> + 'a) -> Self {
-        self.scale = Box::new(scale);
+    pub fn scale<S: IntoScale<T>>(mut self, scale: S) -> Self
+    where
+        S::Scale: 'a,
+    {
+        self.scale = Box::new(scale.into_scale());
         self
     }
 

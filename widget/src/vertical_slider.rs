@@ -31,8 +31,8 @@
 use std::ops::RangeInclusive;
 
 pub use crate::slider::{
-    Catalog, ContinuousScale, DiscreteScale, Handle, HandleShape, Scale, Status, Style, StyleFn,
-    continuous, default, discrete,
+    continuous, default, discrete, Catalog, ContinuousScale, DiscreteScale, Handle, HandleShape,
+    IntoScale, Scale, Status, Style, StyleFn,
 };
 
 use crate::core::border::Border;
@@ -182,8 +182,11 @@ where
     }
 
     /// Sets the [`Scale`] of the [`VerticalSlider`].
-    pub fn scale(mut self, scale: impl Scale<T> + 'a) -> Self {
-        self.scale = Box::new(scale);
+    pub fn scale<S: IntoScale<T>>(mut self, scale: S) -> Self
+    where
+        S::Scale: 'a,
+    {
+        self.scale = Box::new(scale.into_scale());
         self
     }
 
