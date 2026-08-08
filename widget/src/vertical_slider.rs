@@ -30,7 +30,9 @@
 //! ```
 use std::ops::RangeInclusive;
 
-pub use crate::slider::{default, Catalog, Handle, Status, Style, StyleFn};
+pub use crate::slider::{
+    Catalog, Handle, Status, Style, StyleFn, danger, primary, secondary, success, warning,
+};
 
 use crate::core::keyboard;
 use crate::core::keyboard::key::{self, Key};
