@@ -442,7 +442,7 @@ where
         let toggle_bounds = {
             // Try to align toggle to the pixel grid
             let bounds = if renderer::CRISP {
-                (bounds * scale_factor).round()
+                (bounds * scale_factor).round() * (1.0 / scale_factor)
             } else {
                 bounds
             };
@@ -459,7 +459,7 @@ where
                 y: bounds.y + padding,
                 width: bounds.height - (2.0 * padding),
                 height: bounds.height - (2.0 * padding),
-            } * (1.0 / scale_factor)
+            }
         };
 
         renderer.fill_quad(
