@@ -71,6 +71,7 @@ use crate::text_input::{self, TextInput};
 
 use std::cell::RefCell;
 use std::fmt::Display;
+use unicode_segmentation::UnicodeSegmentation;
 
 /// A widget for searching and selecting a single value from a list of options.
 ///
@@ -926,7 +927,7 @@ where
 {
     let query: Vec<String> = query
         .to_lowercase()
-        .split(|c: char| !c.is_ascii_alphanumeric())
+        .unicode_words()
         .map(String::from)
         .collect();
 
@@ -954,7 +955,9 @@ fn build_matcher<T>(option: T) -> String
 where
     T: Display,
 {
-    let mut matcher = option.to_string();
-    matcher.retain(|c| c.is_ascii_alphanumeric());
-    matcher.to_lowercase()
+    option
+        .to_string()
+        .unicode_words()
+        .collect::<String>()
+        .to_lowercase()
 }
